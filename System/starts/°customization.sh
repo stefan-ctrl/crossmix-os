@@ -37,8 +37,8 @@ if [ "$version" != "$FW_patched_version" ]; then
     mv /bin/busybox.bak /mnt/SDCARD/System/bin 2>/dev/null
     cp "/mnt/SDCARD/trimui/res/skin/bg.png" "/usr/trimui/res/skin/"
 
-    # Increase alsa sound buffer
-    # cp "/mnt/SDCARD/System/usr/trimui/etc/asound.conf" "/etc/asound.conf"
+    # set root password
+    echo "root:tina" | chpasswd
 
     # USB Storage app update
     rm "/usr/trimui/apps/usb_storage/"*.png
@@ -115,10 +115,10 @@ if [ "$version" != "$FW_patched_version" ]; then
     # Upgrade the stock OSD
     cp -a /mnt/SDCARD/System/usr/trimui/res/osd/. /usr/trimui/osd/
     find /usr/trimui/osd/ -type f -name "*" -exec chmod a+x {} \;
-    
+
     # Customize SSH sessions
     if ! grep -q "SSH_CONNECTION" /etc/profile; then
-        printf '\n\n[ -n "$SSH_CONNECTION" ] || [ -n "$SSH_CLIENT" ] && . /mnt/SDCARD/System/usr/trimui/scripts/ssh_profile.sh\n' >> /etc/profile
+        printf '\n\n[ -n "$SSH_CONNECTION" ] || [ -n "$SSH_CLIENT" ] && . /mnt/SDCARD/System/usr/trimui/scripts/ssh_profile.sh\n' >>/etc/profile
     fi
 
     # fix potential bad asound configuration
